@@ -1,0 +1,126 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/styles.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+
+    <script src="/resources/js/maps-ajax-conv.js"></script>
+</head>
+<body>
+
+
+
+<!-- Modal Edit n New-->
+<div class="container">
+
+    <form th:action="@{list/maps-sequence}" id="form" method="post">
+        <a class="reload" th:href="@{form}" hidden></a>
+        <div id="errors" style="display: none; color: red;">
+        </div>
+
+        <table id="maps-table">
+            <tr class="table-head">
+                <th>Номер</th>
+                <th>Точка отправления</th>
+                <th>Точка прибытия</th>
+                <th>Дистанция</th>
+                <th>Название транспорта</th>
+                <th>Скорость</th>
+                <th>Максимальный вес</th>
+            </tr>
+            <tr>
+                <td class="serialNumber">1</td>
+                <td class="startPoint">
+                    <select id="startPoint" required>
+                        <option th:each="point : ${points}" th:text="${point.name}" th:value="${point.id}"></option>
+                    </select>
+                </td>
+                <td class="endPoint">
+                    <select id="endPoint" required>
+                        <option th:each="point : ${points}" th:text="${point.name}" th:value="${point.id}"></option>
+                    </select>
+                </td>
+
+                <td class="distance">
+                    <input type="number" id="distance">
+                </td>
+
+                <td class="transport">
+                    <button type="button" class="btn btn-primary select-transport-btn" data-toggle="modal" data-target="#exampleModal">
+                        Выбрать транспорт
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <button type="button" class="btn btn-primary mt-2" id="add-point-btn">
+            Добавить точку
+        </button><br>
+
+        <div class="form-group col-md-8">
+            <input type="submit" class="btn btn-primary mt-5" id="submit-btn"/>
+        </div>
+    </form>
+
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+     id="exampleModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Save or Update</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span id="x-btn" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="transports-table" class="table table-hover">
+                    <thead class="bg-dark text-white">
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>Название</th>
+                        <th>Скорость</th>
+                        <th>Максимальный вес</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr th:each="transport, iStat : ${transports}">
+                        <td><a class="a-radio" id="selected-transport-btn" href>
+                            Выбрать:
+                        </a></td>
+                        <td th:text="${iStat.index + 1 + '.'}"></td>
+                        <td hidden class="text" name="id" th:text="${transport.id}"></td>
+                        <td class="text" name="name" th:text="${transport.name}"></td>
+                        <td class="text" name="speed" th:text="${transport.speed}"></td>
+                        <td class="text" name="maxWeight" th:text="${transport.maxWeight}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="form-group col-md-8"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="close-btn"  data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

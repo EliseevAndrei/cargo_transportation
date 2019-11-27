@@ -1,55 +1,90 @@
 package com.eliseev.app.services;
 
+
+import com.eliseev.app.models.Map;
+import com.eliseev.app.models.Point;
 import com.eliseev.app.models.Route;
-import com.eliseev.app.models.Train;
-import com.eliseev.app.models.TrainStation;
+import com.eliseev.app.repository.custom.RouteDAO;
+import com.eliseev.app.services.dto.MapDTO;
+import com.eliseev.app.services.dto.RoutesDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
-public class RouteService {
+public class RouteService extends AbstractService<Route, RouteDAO> {
 
-    private TrainService trainService;
-    private TrainStationsService trainStationsService;
+    private TransportService transportService;
+    private PointService pointService;
+    private MapService mapService;
 
     @Autowired
-    public RouteService(TrainService trainService,
-                        TrainStationsService trainStationsService) {
-        this.trainService = trainService;
-        this.trainStationsService = trainStationsService;
+    public RouteService(RouteDAO dao, TransportService transportService, PointService pointService,
+                        MapService mapService) {
+        super(dao);
+        this.transportService = transportService;
+        this.pointService = pointService;
+        this.mapService = mapService;
     }
 
-    public List<Route> findRoutes(String depStation, String arrStation, Date date) {
-        List<Route> routes = new ArrayList<>();
-        List<Train> trains = trainService.list();
-        Route route;
-        TrainStation depSt;
-        TrainStation arrSt;
+    private Logger logger = LoggerFactory.getLogger(RouteService.class);
 
-        for(Train train : trains) {
+    @Transactional
+    public List<RoutesDTO> startEndRoutePointsList() {
 
-            route = new Route();
-            route.setTrainId(train.getId());
-            route.setTrainName(train.getName());
-            depSt = trainStationsService.list(train.getId()).get(0);
-            route.setDepStation(depSt.getStation().getName());
-            //todo return
-            /*route.setDepTime(depSt.getDepartureTime());
-            route.setCoupe_places_amount(depSt.getCoupe_places_amount());
-            route.setLying_places_amount(depSt.getLying_places_amount());
-            route.setCommon_places_amount(depSt.getCommon_places_amount());
-            arrSt = trainStationsService.list(train.getId()).get(1);
-            route.setArrStation(arrSt.getStation().getName());
-            route.setArrTime(arrSt.getArriveTime());*/
+        List<Route> routes = dao.findAll();
+        List<Map> maps;
+        List<RoutesDTO> routesDTOs = new ArrayList<>();
+        RoutesDTO routesDTO;
+        Point startPoint, endPoint;
+        int mapsSize;
 
-            routes.add(route);
+        for (Route route : routes) {
+
+            maps = mapService.list(route.getId());
+            mapsSize = maps.size();
+
+            if (mapsSize > 0) {
+                startPoint = maps.get(0).getStartPoint();
+                if (mapsSize == 1) {
+                    endPoint = maps.get(0).getEndPoint();
+                } else {
+                    endPoint = maps.get(mapsSize - 1).getEndPoint();
+                }
+                routesDTO = new RoutesDTO(startPoint, endPoint);
+                routesDTOs.add(routesDTO);
+            }
         }
 
-        return routes;
+        return routesDTOs;
+
+    }
+
+
+    @Transactional
+    public Route create(List<MapDTO> mapDTOs) {
+
+        Route route = new Route();
+        List<Map> maps = new ArrayList<>();
+        Map map;
+
+        for (MapDTO mapDTO : mapDTOs) {
+            map = new Map(mapDTO.getDistance(), mapDTO.getSerialNumber(),
+                    pointService.get(mapDTO.getStartPointId()),
+                    pointService.get(mapDTO.getEndPointId()),
+                    transportService.get(mapDTO.getTransportId()), route);
+            maps.add(map);
+        }
+
+        route.getMaps().addAll(maps);
+
+        return dao.save(route);
     }
 
 }
+
