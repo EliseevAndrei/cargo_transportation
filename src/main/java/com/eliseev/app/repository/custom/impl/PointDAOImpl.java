@@ -5,6 +5,8 @@ import com.eliseev.app.repository.AbstractDAO;
 import com.eliseev.app.repository.custom.PointDAO;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
+
 @Repository
 public class PointDAOImpl extends AbstractDAO<Point>
         implements PointDAO {
@@ -13,4 +15,16 @@ public class PointDAOImpl extends AbstractDAO<Point>
         super(Point.class);
     }
 
+    @Override
+    public Point findPointByName(String name) {
+        Point point;
+        try {
+            point = super.entityManager.createQuery("select p from Point p where p.name = :name", Point.class)
+                    .setParameter("name", name)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+        return point;
+    }
 }

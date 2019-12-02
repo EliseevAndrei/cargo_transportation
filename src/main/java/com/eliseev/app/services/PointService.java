@@ -17,5 +17,8 @@ public class PointService extends AbstractService<Point, PointDAO> {
 
     private Logger logger = LoggerFactory.getLogger(PointService.class);
 
+    public Point findPointByName(String name) {
+        return super.dao.findPointByName(name);
+    }
 
 }

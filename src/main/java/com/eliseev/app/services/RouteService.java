@@ -1,11 +1,13 @@
 package com.eliseev.app.services;
 
 
+import com.eliseev.app.models.Company;
 import com.eliseev.app.models.Map;
 import com.eliseev.app.models.Point;
 import com.eliseev.app.models.Route;
 import com.eliseev.app.repository.custom.RouteDAO;
 import com.eliseev.app.services.dto.MapDTO;
+import com.eliseev.app.services.dto.RouteDTO;
 import com.eliseev.app.services.dto.RoutesDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,8 +84,35 @@ public class RouteService extends AbstractService<Route, RouteDAO> {
         }
 
         route.getMaps().addAll(maps);
+        route.setCompany(new Company(1));
 
         return dao.save(route);
+    }
+
+    @Transactional
+    public List<RouteDTO> getRoutesWithDetails(String depPoint, String arrPoint) {
+
+        Point depPointObj = pointService.findPointByName(depPoint);
+        if (depPointObj == null) {
+            return null;
+        }
+        Point arrPointObj = pointService.findPointByName(arrPoint);
+        if (arrPointObj == null) {
+            return null;
+        }
+
+        List<Route> routes = super.dao.getRoutes(depPointObj, arrPointObj);
+
+        RouteDTO routeDTO;
+        List<RouteDTO> routeDTOs = new ArrayList<>();
+        for (Route route : routes) {
+            routeDTO = super.dao.getRouteDetails(route.getId(), depPointObj, arrPointObj);
+            routeDTO.setRoute(route);
+            routeDTOs.add(routeDTO);
+            logger.info("{}", routeDTO);
+        }
+
+        return routeDTOs;
     }
 
 }

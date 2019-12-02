@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/routes")
@@ -29,6 +30,16 @@ public class RouteController {
         this.transportService = transportService;
     }
 
+    @GetMapping("/suitable")
+    public String getRoutes(@RequestParam("dep_point") String depPoint,
+                            @RequestParam("arr_point") String arrPoint,
+                            Model model) {
+        model.addAttribute("routes",routeService.getRoutesWithDetails(depPoint, arrPoint));
+        model.addAttribute("dep_point", depPoint);
+        model.addAttribute("arr_point", arrPoint);
+        return "routes/filteredRoutes";
+    }
+
     @GetMapping
     public String findAll(Model model) {
         logger.info("User send /routes");
@@ -43,6 +54,8 @@ public class RouteController {
         model.addAttribute("transports", transportService.list());
         return "routes/mapsForm";
     }
+
+
 
 }
 

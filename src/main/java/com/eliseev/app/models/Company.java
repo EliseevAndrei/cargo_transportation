@@ -35,5 +35,12 @@ public class Company extends AbstractEntity {
     @ToString.Exclude
     private List<User> users = new ArrayList<>();
 
-
+    public Company(long id, String name) {
+        super.id = id;
+        this.name = name;
+    }
+    public Company(long id) {
+        super.id = id;
+        this.name = name;
+    }
 }

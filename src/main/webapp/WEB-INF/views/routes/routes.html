@@ -18,10 +18,46 @@
 
 <body>
 
+<header>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/routes">Пути<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/routes/form">Создать route</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/transports">Транспорт</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/points">Точки</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/products">Товар</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+</header>
+
 <div class="container">
     <div class="row">
         <div class="mx-auto col-md-6">
-            <button class="btn btn-primary nBtn">New</button>
+            <form action="/routes/form">
+            <button class="btn btn-primary nBtn" type="submit">New</button>
+            </form>
             <a class="ml-3" id="reloadBtn" href="points"><i class="fas fa-redo-alt"></i></a>
             <table class="table table-hover">
                 <thead class="bg-dark text-white">
@@ -31,13 +67,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="point : ${points}">
-                    <td th:text="${point.name}"></td>
-                    <td>
-                        <a class="btn btn-primary text-white eBtn" id="eBtn"
-                           th:href="${'points/list/' + point.id}">Edit</a>
-                        <a class="btn btn-danger text-white rBtn" id="rBtn" th:href="${'points/list/'+point.id}">Remove</a>
-                    </td>
+                <tr th:each="route : ${routes}">
+                    <td th:text="${route.startPoint.name}"></td>
+                    <td th:text="${route.endPoint.name}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -45,7 +77,6 @@
     </div>
 </div>
 
-<script src="/resources/js/ajax-conversation.js"></script>
 
 </body>
 </html>

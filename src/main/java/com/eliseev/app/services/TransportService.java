@@ -17,5 +17,9 @@ public class TransportService extends AbstractService<Transport, TransportDAO> {
 
     private Logger logger = LoggerFactory.getLogger(PointService.class);
 
+    public Transport getTransportByName(String name) {
+        return super.dao.getTransportByName(name);
+    }
+
 
 }

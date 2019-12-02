@@ -38,13 +38,13 @@
                     <a class="nav-link" href="/routes/form">Создать route</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/transports">Транспорт<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/transports">Транспорт</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/points">Точки</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/products">Товар</a>
+                    <a class="nav-link" href="/products">Товар <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
         </div>
@@ -56,25 +56,23 @@
     <div class="row">
         <div class="mx-auto col-md-6">
             <button class="btn btn-primary nBtn">New</button>
-            <a class="ml-3" id="reloadBtn" href="transports"><i class="fas fa-redo-alt"></i></a>
+            <a class="ml-3" id="reloadBtn" href="products"><i class="fas fa-redo-alt"></i></a>
             <table class="table table-hover">
                 <thead class="bg-dark text-white">
                 <tr>
                     <th>Название</th>
-                    <th>Скорость</th>
-                    <th>Максимальный вес</th>
+                    <th>Вес для перевозки</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="transport : ${transports}">
-                    <td th:text="${transport.name}"></td>
-                    <td th:text="${transport.speed}"></td>
-                    <td th:text="${transport.maxWeight}"></td>
-                    <td >
+                <tr th:each="product : ${products}">
+                    <td th:text="${product.name}"></td>
+                    <td th:text="${product.boxWeight}"></td>
+                    <td>
                         <a class="btn btn-primary text-white eBtn" id="eBtn"
-                           th:href="${'transports/list/' + transport.id}">Edit</a>
-                        <a class="btn btn-danger text-white rBtn" id="rBtn" th:href="${'transports/list/'+transport.id}">Remove</a>
+                           th:href="${'products/list/' + product.id}">Edit</a>
+                        <a class="btn btn-danger text-white rBtn" id="rBtn" th:href="${'products/list/' + product.id}">Remove</a>
                     </td>
                 </tr>
                 </tbody>
@@ -85,7 +83,7 @@
 
 <!-- Modal Edit n New-->
 <div class="myForm">
-    <form th:action="@{transports/list}" id="form">
+    <form th:action="@{products/list}" id="form">
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
              id="exampleModal">
             <div class="modal-dialog" role="document">
@@ -105,12 +103,8 @@
                             <input type="text" class="form-control" id="name" name="name" value="">
                         </div>
                         <div class="form-group col-md-8">
-                            <label for="name" class=" label">Скорость (км/ч)</label>
-                            <input type="number" class="form-control" id="speed" name="speed" value="">
-                        </div>
-                        <div class="form-group col-md-8">
-                            <label for="name" class=" label">Максимальный вес</label>
-                            <input type="text" class="form-control" id="maxWeight" name="maxWeight" value="">
+                            <label for="name" class=" label">Вес для перевозки</label>
+                            <input type="text" class="form-control" id="boxWeight" name="boxWeight" value="">
                         </div>
                         <div class="form-group col-md-8"></div>
                     </div>

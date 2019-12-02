@@ -5,4 +5,5 @@ import com.eliseev.app.repository.IDAO;
 
 public interface PointDAO extends IDAO<Point> {
 
+    Point findPointByName(String name);
 }

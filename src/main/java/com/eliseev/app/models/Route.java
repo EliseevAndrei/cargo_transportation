@@ -34,5 +34,8 @@ public class Route extends AbstractEntity {
     @JoinColumn(name="company_id")
     private Company company;
 
-
+    public Route(long id, Company company) {
+        super.id = id;
+        this.company = company;
+    }
 }

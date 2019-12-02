@@ -2,6 +2,7 @@ package com.eliseev.app.services;
 
 import com.eliseev.app.models.Map;
 import com.eliseev.app.repository.custom.MapDAO;
+import com.eliseev.app.services.dto.DetailedMapDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class MapService extends AbstractService<Map, MapDAO> {
 
     public List<Map> list(long routeId) {
         return super.dao.list(routeId);
+    }
+
+    public List<DetailedMapDTO> getMaps(long routeId, long leftSerialNumber, long rightSerialNumber) {
+        return super.dao.getMaps(routeId, leftSerialNumber, rightSerialNumber);
     }
 
 }

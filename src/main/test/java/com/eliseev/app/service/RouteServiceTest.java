@@ -4,6 +4,7 @@ import com.eliseev.app.TestConfig;
 import com.eliseev.app.models.Route;
 import com.eliseev.app.services.RouteService;
 import com.eliseev.app.services.dto.MapDTO;
+import com.eliseev.app.services.dto.RouteDTO;
 import com.eliseev.app.services.dto.RoutesDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,5 +47,14 @@ public class RouteServiceTest {
 
         logger.info("{}", route.getMaps());
     }
+
+    @Test
+    public void getRoutesWithDetails() {
+
+        List<RouteDTO> routeDTOs = routeService.getRoutesWithDetails("Брест", "Гродно");
+        logger.info("{}", routeDTOs);
+
+    }
+
 
 }

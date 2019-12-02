@@ -5,4 +5,5 @@ import com.eliseev.app.repository.IDAO;
 
 public interface TransportDAO extends IDAO<Transport> {
 
+    Transport getTransportByName(String name);
 }
