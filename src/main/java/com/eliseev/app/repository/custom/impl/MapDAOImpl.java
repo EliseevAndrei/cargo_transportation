@@ -55,8 +55,8 @@ public class MapDAOImpl extends AbstractDAO<Map>
             Transport transport = new Transport(
                     ((BigInteger)object[4]).longValue(),
                     (String) object[5], (Integer) object[6],
-                    (Double) object[7],
-                    (BigDecimal) object[8]);
+                    (Integer) object[7],
+                    ((BigDecimal) object[8]).doubleValue());
 
             DetailedMapDTO detailedMap = new DetailedMapDTO(
                     ((BigInteger) object[0]).longValue(),

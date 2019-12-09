@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-
     $('.nBtn, .table .eBtn').click(function (e) {
 
         e.preventDefault();

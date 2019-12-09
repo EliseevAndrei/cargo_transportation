@@ -1,4 +1,7 @@
 package com.eliseev.app.security;
 
-public class SecurityWebInitializer {
+import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
+
+public class SecurityWebInitializer extends AbstractSecurityWebApplicationInitializer {
+
 }

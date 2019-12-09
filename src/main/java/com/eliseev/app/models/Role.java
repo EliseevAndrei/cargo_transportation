@@ -8,10 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +19,11 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Entity
-@EqualsAndHashCode
-@ToString
-public class Role {
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class Role extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
+    @Enumerated(EnumType.STRING)
     private UserRoleEnum name;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
@@ -36,3 +32,4 @@ public class Role {
     @JsonIgnore
     private List<User> users = new ArrayList<>();
 }
+

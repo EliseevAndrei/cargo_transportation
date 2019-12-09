@@ -32,7 +32,6 @@
 <body>
 
 
-
 <script>
 
     /*$("#inputFilter").on("keyup", function () {
@@ -48,7 +47,8 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -83,6 +83,9 @@
             <th>Используемый транспорт</th>
             <th hidden></th>
             <th hidden></th>
+            <th hidden></th>
+            <th hidden></th>
+            <th hidden></th>
             <th></th>
         </tr>
         </thead>
@@ -93,28 +96,33 @@
                 Выбрать:
             </a></td>
             <td th:text="${iStat.index + 1 + '.'}"></td>
-            <td hidden class="text" name="routeId" th:text="${route.route.id}"></td>
-            <td class="text" name="distance" th:text="${route.distance}"></td>
-            <td class="text" name="cost" th:text="${route.cost}"></td>
-            <td class="text" name="company" th:text="${route.route.company.name}"></td>
-            <td class="text" name="transports">
+            <td hidden class="text" id="routeId" th:text="${route.route.id}"></td>
+            <td class="text" id="distance" th:text="${route.distance}"></td>
+            <td class="text" id="cost" th:text="${route.cost}"></td>
+            <td class="text" id="company" th:text="${route.route.company.name}"></td>
+            <td class="text" id="transports">
                 <ul th:each="transport : ${route.transports}">
                     <li th:text="${transport}"></li>
                 </ul>
             </td>
-            <td hidden class="text" name="startMapId" th:text="${route.startMapId}"></td>
-            <td hidden class="text" name="endMapId" th:text="${route.endMapId}"></td>
-             <td>
-                 <a class="btn btn-info detail" th:href="@{list/} + ${route.route.id} + @{/mapsBetween(leftBorder=${route.startMapSerialNumber},rightBorder=${route.endMapSerialNumber})}">Промежутки</a>
-             </td>
+            <td hidden class="text" id="startMapId" th:text="${route.startMapId}"></td>
+            <td hidden class="text" id="endMapId" th:text="${route.endMapId}"></td>
+            <td hidden class="text" id="companyId" th:text="${route.route.company.id}"></td>
+            <td hidden class="text" id="startMapSerialNumber" th:text="${route.startMapSerialNumber}"></td>
+            <td hidden class="text" id="endMapSerialNumber" th:text="${route.endMapSerialNumber}"></td>
+            <td>
+                <a class="btn btn-info detail"
+                   th:href="@{list/} + ${route.route.id} + @{/mapsBetween(leftBorder=${route.startMapSerialNumber},rightBorder=${route.endMapSerialNumber})}">Промежутки</a>
+            </td>
         </tr>
         </tbody>
     </table>
 </div>
 
 <div class="routeForm">
-    <form th:action="${'trains/list/'}"  id="routeForm">
-        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false"
+    <form th:action="${'trains/list/'}" id="routeForm">
+        <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+             data-backdrop="static" data-keyboard="false"
              id="routeFormModal">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -162,26 +170,68 @@
         <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
              id="orderModal">
             <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Создание зайвки</h5>
+                <div class="modal-content" id="modal-content">
+                    <div class="modal-header" id="modal-header">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active nav-item">
+                                <a href="#product" class="nav-link" aria-controls="product" role="tab"
+                                   data-toggle="tab">Товар</a>
+                            </li>
+                            <li role="presentation" class="nav-item">
+                                <a href="#order" class="nav-link" aria-controls="order" role="tab" data-toggle="tab">Заказ</a>
+                            </li>
+                        </ul>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span id="x-btn" aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <div id="errors" style="display: none; color: red;">
+                    <div class="modal-body" id="modal-body">
+
+                        <div>
+                            <!-- Nav tabs -->
+                            <div class="tab-content">
+
+                                <div role="tabpanel" class="tab-pane fade in active" id="product">
+                                    <div class="card card-body">
+                                        <table id="product-table">
+                                            <tr>
+                                                <th>Продукт</th>
+                                                <th>Вес</th>
+                                            </tr>
+                                        </table>
+                                        <br>
+                                        <button type="button" class="btn btn-secondary" id="add-product-btn">Добавить
+                                            продукт
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane fade" id="order">
+                                    <form>
+                                        <div id="errors" style="display: none; color: red;">
+                                        </div>
+                                        <div class="form-group col-md-8">
+                                            <label for="surname" class=" label">Фамилия</label>
+                                            <input type="text" class="form-control" id="surname" name="surname" value="">
+                                        </div>
+                                        <div class="form-group col-md-8">
+                                            <label for="firstName" class=" label">Имя</label>
+                                            <input type="text" class="form-control" id="firstName" name="firstName" value="">
+                                        </div>
+                                        <div class="form-group col-md-8">
+                                            <label for="email" class=" label">Email</label>
+                                            <input type="text" class="form-control" id="email" name="email" value="">
+                                        </div>
+                                        <div class="form-group col-md-8"></div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                        <input type="text" hidden id="id">
-                        <div class="form-group col-md-8">
-                            <label for="name" class=" label">Название</label>
-                            <input type="text" class="form-control" id="name" name="name" value="">
-                        </div>
-                        <div class="form-group col-md-8"></div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" id="edit-submit">Save</button>
+                        <button type="submit" class="btn btn-primary" id="order-submit-btn">Save</button>
                     </div>
                 </div>
             </div>

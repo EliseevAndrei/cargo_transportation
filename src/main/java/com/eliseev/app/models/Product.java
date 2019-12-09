@@ -17,6 +17,6 @@ import javax.persistence.Entity;
 public class Product extends AbstractEntity {
 
     private String name;
-    private String boxWeight;
+    private Integer boxWeight;
 
 }

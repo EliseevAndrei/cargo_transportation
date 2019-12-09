@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class TransportService extends AbstractService<Transport, TransportDAO> {
 
@@ -22,4 +24,7 @@ public class TransportService extends AbstractService<Transport, TransportDAO> {
     }
 
 
+    public Map<Transport, Long> getTransports(Long routeId, int startMapSerialNumber, int endMapSerialNumber) {
+        return super.dao.getTransports(routeId, startMapSerialNumber, endMapSerialNumber);
+    }
 }

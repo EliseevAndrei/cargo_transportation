@@ -37,27 +37,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(filter, CsrfFilter.class);
 
         http
+                .csrf()
+                .disable()
+                .httpBasic()
+                .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers("/design", "/orders")
+                .antMatchers("/users/**")
                 .hasRole(UserRoleEnum.USER.name())
                 .antMatchers("/**").access("permitAll")
 
                 .and()
                 .formLogin()
                 .loginPage("/login")
-
-                .and()
-                .httpBasic()
-                .realmName("Taco Cloud")
+                .usernameParameter("login")
+                .passwordParameter("pass")
 
                 .and()
                 .logout()
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/")
 
                 .and()
-                .csrf()
-                .ignoringAntMatchers("/h2-console/**")
+                .rememberMe()
+                .key("uniqueAndSecret")
 
                 // Allow pages to be loaded in frames from the same origin; needed for H2-Console
                 .and()

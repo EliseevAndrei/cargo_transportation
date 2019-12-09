@@ -12,6 +12,64 @@
 </head>
 <body>
 
+<script>
+
+    /*$(document).ready(function () {
+        $('#Section1 #sign-in').click(function (event) {
+            event.preventDefault();
+            var user = {};
+
+            $("#sign-in-form :input[type*='text']").each(function () {
+                user[$(this).attr('id')] = $(this).val();
+            });
+
+            $.ajax({
+                url: "/users/list/registered",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(user),
+                success: function (data, textStatus, xhr) {
+                    $(location).attr('href', data.id +"/orderTicket");
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                   /!* alert("Error with status" + textStatus + errorThrown);*!/
+
+                    console.log("error");
+                    let error = $("#Section1 #error");
+                    error.empty();
+                    error.html("<p>Не удалось войти!</p>");
+                    error.css("display", "block");
+                }
+            });
+        });
+
+        $('#Section2 #sign-up').click(function (event) {
+            event.preventDefault();
+            var user = {};
+
+            $("#sign-up-form :input[type='text']").each(function () {
+                user[$(this).attr('id')] = $(this).val();
+            });
+
+            $.ajax({
+                url: "/users/list",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(user),
+                success: function (data, textStatus, xhr) {
+                    $(location).attr('href', data.id +"/orderTicket");
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    /!* alert("Error with status" + textStatus + errorThrown);*!/
+                    console.log("error");
+                    $("#Section2 #error").css("display", "block");
+                }
+            });
+        });
+    });*/
+</script>
 
 <div class="container">
     <div class="row">
@@ -31,25 +89,25 @@
                         <div id="error" style="display: none; color: red">
                             <h5>Не удалось войти!</h5>
                         </div>
-                        <form class="form-horizontal" id="sign-in-form" th:action="@{/login}" method="post"
-                              th:object="${user}">
+                        <form class="form-horizontal" id="sign-in-form" th:action="@{/login}" method="post">
                             <div class="form-group">
                                 <label for="login">login</label>
-                                <input type="text" class="form-control" id="login" th:field="*{login}">
+                                <input type="text" class="form-control" id="login" name="login" >
                             </div>
                             <div class="form-group">
                                 <label for="pass">Password</label>
-                                <input type="text" class="form-control" id="pass" th:field="*{pass}">
+                                <input type="text" class="form-control" id="pass" name="pass">
                             </div>
-                            <!--<div class="form-group">
+                            <div class="form-group">
                                 <div class="main-checkbox">
-                                    <input value="None" id="checkbox1" name="check" type="checkbox">
+                                    <input id="checkbox1" name="remember-me" type="checkbox">
                                     <label for="checkbox1"></label>
                                 </div>
-                                <span class="text">Keep me Signed in</span>
-                            </div>-->
+                                <span class="text">Запомнить меня</span>
+                            </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-default" id="sign-in">Sign in</button>
+                                <input type="submit" class="btn btn-default" value="Login">
+                                <!--<button type="submit" class="btn btn-default" id="sign-in">Sign in</button>-->
                             </div>
                             <!-- <div class="form-group forgot-pass">
                                  <button type="submit" class="btn btn-default">forgot password</button>
@@ -60,26 +118,26 @@
                         <div id="error" style="display: none; color: red">
                             <h5>Не удалось зарегистрироваться!</h5>
                         </div>
-                        <form class="form-horizontal" id="sign-up-form" th:action="@{/login}" method="post" th:object="${user}">
+                        <form class="form-horizontal" id="sign-up-form" th:action="@{/register}" method="post">
                             <div class="form-group">
                                 <label for="name">First Name</label>
-                                <input type="text" class="form-control" id="name" th:field="*{name}">
+                                <input type="text" class="form-control" id="name" name="name">
                             </div>
                             <div class="form-group">
                                 <label for="surname">Last Name</label>
-                                <input type="text" class="form-control" id="surname" th:field="*{surname}">
+                                <input type="text" class="form-control" id="surname" name="surname">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="text" class="form-control" id="email" th:field="*{email}">
+                                <input type="text" class="form-control" id="email" name="email">
                             </div>
                             <div class="form-group">
                                 <label for="login">Login</label>
-                                <input type="text" class="form-control" id="login" th:field="*{login}">
+                                <input type="text" class="form-control" id="login" name="login">
                             </div>
                             <div class="form-group">
                                 <label for="pass">Password</label>
-                                <input type="text" class="form-control" id="pass" th:field="*{pass}">
+                                <input type="password" class="form-control" id="pass" name="pass">
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-default" id="sign-up">Sign up</button>

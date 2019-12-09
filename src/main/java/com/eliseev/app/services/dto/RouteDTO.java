@@ -22,8 +22,8 @@ public class RouteDTO {
     private BigDecimal cost;
     private String[] transports;
     private long startMapId;
-    private long startMapSerialNumber;
+    private int startMapSerialNumber;
     private long endMapId;
-    private long endMapSerialNumber;
+    private int endMapSerialNumber;
 
 }
